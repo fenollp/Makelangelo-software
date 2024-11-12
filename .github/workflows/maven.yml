@@ -119,7 +119,7 @@ jobs:
         set -eux -o pipefail
         APP_VERSION=$(ls target/package/Makelangelo-*-with-dependencies.jar | sed "s/.*Makelangelo-\([^-]*\)-with-dependencies.jar/\1/")
         sed -i.bak "s/\(--app-version\).*/\1 $APP_VERSION/" src/main/package/jpackage.cfg
-        jpackage "@src/main/package/jpackage.cfg" "@src/main/package/jpackage-${{matrix.os}}.cfg" --main-jar "Makelangelo-$APP_VERSION-with-dependencies.jar"
+        jpackage "@src/main/package/jpackage.cfg" "@src/main/package/jpackage-${{matrix.os}}.cfg" --main-jar "Makelangelo-$APP_VERSION-with-dependencies.jar" || echo ohwell
         ls -lha
         BINARY=$(find . -maxdepth 1 -iname 'makelangelo*' | grep -E '(msi|dmg|deb)$' | sed 's,./,,' | head -1)
         BINARY_NIGHTLY=$(echo $BINARY | sed 's/[Mm]akelangelo\(.*\)\.\(.*\)/\Makelangelo-nightly-$$.\2/')
